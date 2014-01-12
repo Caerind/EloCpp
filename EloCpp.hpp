@@ -6,6 +6,9 @@
 namespace elo
 {
 
+int scoreToOverpass = 2400;
+int basicRank = 1200;
+
 enum Result
 {
     Win,
@@ -17,7 +20,8 @@ enum Result
 class Player
 {
     public:
-        Player(float rank, float gamePlayed, bool overpassed) : mRank(rank), mGamePlayed(gamePlayed),mOverpassed(overpassed) {}
+        Player() { mRank = basicRank; mGamePlayed = 0; mOverpassed = false; }
+		Player(float rank, float gamePlayed, bool overpassed) : mRank(rank), mGamePlayed(gamePlayed),mOverpassed(overpassed) {}
 
         float versus(float const& oRank, Result const& result)
         {
@@ -55,7 +59,7 @@ class Player
         void update()
         {
             mGamePlayed++;
-            if (mRank >= 2400)
+            if (mRank >= scoreToOverpass)
             {
                 mOverpassed = true;
             }
