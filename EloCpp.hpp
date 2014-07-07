@@ -1,21 +1,8 @@
 #ifndef ELOCPP_HPP_INCLUDED
 #define ELOCPP_HPP_INCLUDED
 
-#include <math.h>
-
 namespace elo
 {
-
-int scoreToOverpass = 2400;
-int basicRank = 1200;
-
-enum Result
-{
-    Win,
-    Draw,
-    Lose,
-
-}; // ENUM RESULT
 
 class Player
 {
@@ -74,26 +61,45 @@ class Player
 
 }; // CLASS PLAYER
 
-void Manager(Player& a, Player& b, Result const& result = Win)
+class Manager
 {
-    if (result == Win)
-    {
-        float rankA = a.getRank();
-        a.versus(b.getRank(), Win);
-        b.versus(rankA, Lose);
-    }
-    else if (result == Draw)
-    {
-        float rankA = a.getRank();
-        a.versus(b.getRank(), Draw);
-        b.versus(rankA, Draw);
-    }
-    else
-    {
-        Manager(b,a,Win);
-    }
+	public:
+		static void game(Player& a, Player&b, Result const& result = Win)
+		{
+			if (result == Win)
+			{
+				float rankA = a.getRank();
+				a.versus(b.getRank(), Win);
+				b.versus(rankA, Lose);
+			}
+			else if (result == Draw)
+			{
+				float rankA = a.getRank();
+				a.versus(b.getRank(), Draw);
+				b.versus(rankA, Draw);
+			}
+			else
+			{
+				game(b,a,Win);
+			}
+		}
+		static void setScoreToOverpass(int score) { ScoreToOverpass = score; }
+		static void setBasicRank(int rank) { BasicRank = rank; }
+		static int getScoreToOverpass() { return ScoreToOverpass; }
+		static int getBasicRank() { return BasiRank; }
+		
+		enum Result
+		{
+			Win,
+			Draw,
+			Lose,
+		}	
+		
+	private:
+		static int ScoreToOverPass;
+		static int BasicRank;
 
-} // VOID MANAGER
+}; // CLASS MANAGER
 
 } // NAMESPACE ELO
 
